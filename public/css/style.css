@@ -1,0 +1,158 @@
+.bg-green-light { 
+    background-color: #4dcb44;
+}
+.bg-white { 
+   background-color: #fff;
+}
+.bg-gray-deep{
+	background-color: #1f1e1e;
+}
+.bg-black-deep{
+	background-color: #111;
+	color: #fff;
+	font-weight: 300;
+}
+.text-green-light{
+	color:#4dcb44!important;
+	font-weight: 400;
+}
+.text-nav{
+	color:#555!important;
+	font-weight: 400;
+}
+a.text-nav:focus,a.text-nav:hover{
+	color:#4dcb44!important
+}
+.rounded-div{
+	border-radius: 1.5rem;
+}
+.heading-border{
+	border: 3px solid #4dcb44;
+	border-radius: 1.5rem;
+	background: #f2fdf1;
+}
+
+footer a{
+	color:#adadad;
+	text-decoration: none;
+	font-weight: 400;
+}
+footer a:hover{
+	color:#4dcb44;
+	text-decoration: underline;
+}
+footer ul{
+	    list-style-type:none;
+}
+
+
+#accordion a{
+	text-decoration: none;
+	color: #555;
+	font-weight: 400;
+}
+#accordion a:hover{
+	text-decoration: none;
+	color: #4dcb44;
+	font-weight: 400;
+}
+
+#accordion ul{
+	list-style-type:none;
+	padding: 0px;
+	margin: 0px; 
+}
+#accordion ul li{
+    padding-bottom: 5px;
+    background-color: #fff;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 15%;
+}
+#accordion ul li.active a{
+    color: #4dcb44;
+}
+#accordion .card-body{
+	padding:0px;
+}
+
+.accordion .card-header:after {
+    font-family: 'FontAwesome';  
+    content: "\f068";
+    float: right; 
+}
+.accordion .card-header.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f067"; 
+}
+
+
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #4dcb44;
+}
+.custom-radio .custom-control-input:checked~.custom-control-label::before {
+    background-color: #4dcb44;
+}
+
+.ui-sortable-helper  {
+    background-color:#fff;
+	font-weight: 500;
+	margin-bottom: .25rem!important;
+}
+
+.question-title{
+	background-color: #c3f7bb;
+	color: #545454;
+	font-weight: 500;
+	padding:.5rem!important;
+}
+.question-title:hover{
+	cursor: move;
+}
+
+.question-body.collapse.show {
+    display: block;
+    background-color: #fff;
+    padding: 1rem!important;
+    border: 1px solid #c3f7bb;
+}
+
+.w-10{
+	width: 10%;
+}
+.w-80{
+	width: 80%;
+}
+
+/*   CSS Counter for question ***/
+body {
+  counter-reset: question;
+}
+
+.qcounter::before {
+  counter-increment: question;                 /* Increment the value of section counter by 1 */
+  content: counter(question);                  /* Display the value of section counter */
+}
+
+.options {
+  counter-reset: option;
+}
+
+.opCounter::before {
+  counter-increment: option;                 /* Increment the value of section counter by 1 */
+  content: counter(option,lower-alpha) ". ";                 /* Display the value of section counter */
+}
+
+
+/* ---------End ----------*/
+
+.question a.collapsible:after {
+    font-family: 'FontAwesome';  
+    content: "\f077";
+    float: right; 
+}
+.question a.collapsible.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f078"; 
+}
