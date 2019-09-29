@@ -1,0 +1,32 @@
+version: "3.3"
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: Docker/nginx.Dockerfile
+    ports:
+      - 1994:80
+    links:
+        - fpm
+    volumes:
+        - ./:/var/www/
+
+  fpm:
+    build:
+      context: .
+      dockerfile: Docker/fpm.Dockerfile
+    volumes:
+      - ./:/var/www/
+    links: 
+      - mysql
+
+  mysql:
+    image: mysql:5.7.22
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=qqlaradb
+      - MYSQL_ROOT_PASSWORD=Asdf+963
+      - MYSQL_USER=admin2
+      - MYSQL_PASSWORD=Asdf+963+2
