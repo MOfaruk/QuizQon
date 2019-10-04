@@ -26,7 +26,19 @@ services:
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_DATABASE=qqlaradb
+      - MYSQL_DATABASE=quizqondb79
       - MYSQL_ROOT_PASSWORD=Asdf+963
       - MYSQL_USER=admin2
       - MYSQL_PASSWORD=Asdf+963+2
+
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: Asdf+963

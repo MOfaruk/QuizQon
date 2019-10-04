@@ -49,3 +49,10 @@ USER www
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 CMD ["php-fpm"]
+
+
+#Laravel Commands
+RUN cd /var/www &&
+#CMD ["composer install"]
+ php artisan key:generate &&
+ php artisan migrate
