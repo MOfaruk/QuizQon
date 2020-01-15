@@ -11,10 +11,13 @@ class Quiz extends Model
         'title',
         'desc',
         'nQs',
+        'negativeMark',
         'author_id',
         'start_on',
         'duration',//in minute
-        'nHit'
+        'thumbnail',
+        'nHit',
+        'status'
     ];
     protected $table = 'quizzes';
 }

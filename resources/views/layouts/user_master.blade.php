@@ -8,21 +8,24 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>@yield('title','Home') | {{ config('app.name', 'QuizQon') }}</title>
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Bootstrap core CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
 
+    <link rel="icon" href="images/favicon.ico" type="image/gif" sizes="16x16">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:100,300,400,500,600,700,800" rel="stylesheet" type="text/css">
+
     <!-- Custom style sheets -->
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css')}}">
-    @yield('head')
+    @stack('head')
 </head>
 
-<body>
+<body style="font-family:Nunito">
     <!--Main Navigation-->
     <header>
         @include('partial.nav')
@@ -49,6 +52,6 @@
     <!-- MDB core JavaScript -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
     <!--   Custom Scripts   -->
-    @yield('scripts')
+    @stack('scripts')
 </body>
 </html>

@@ -1,6 +1,7 @@
 //Global Data
 var qidmeta = $('meta[name="quiz-id"]');
-var quiz_id = quiz_id = qidmeta.attr("content");
+var quiz_id = qidmeta.attr("content");
+var scoreboard_url = $('meta[name="scr-url"]').attr("content")
 var waitTime;
 var loadedData;
 var bQuizLoaded = false;
@@ -130,8 +131,8 @@ function insertIntoBody()
         waitTime = 0;
         $('#btnSubmit').removeClass('btn-success');
         $('#btnSubmit').removeClass('d-none');
-        $('#btnSubmit').addClass('btn-warning');
-        $('#btnSubmit').html('VC');
+        $('#btnSubmit').addClass('btn-info');
+        $('#btnSubmit').html('Submit');
     }
     else //contest started
     {
@@ -255,7 +256,7 @@ $('#btnShowScore').click(function(e){
 });
 
 function showScore() {
-    var scText="";
+    var scText="<div style='text-align: left;' >";
     jQuery.ajax({
         url:'/score-api/'+quiz_id,
         type: 'GET',
@@ -271,23 +272,28 @@ function showScore() {
                 else
                     ya= qs['option'+userAns[i-1]['ans']];
 
-                qa = qs['option'+qs['correct']];
+                ca = qs['option'+qs['correct']];
+
+                if(ya==ca)
+                    bgCol = '#e6ffe6';
+                else
+                    bgCol = '#ffe6e6';
                 
                 scText +=
-                '<div class="card my-2">'+
+                '<div class="card my-2" style="background-color:'+ bgCol +'">'+
                     '<div class="card-body">'+
-                        '<b>['+ i +'] '+ qs['desc'] +'</b><br>'+
-                        '<b>Your Ans &nbsp;&nbsp;&nbsp;&nbsp;</b> '+ ya +'<br>'+
-                        '<b>Correct Ans &nbsp;</b> '+ qa +
+                        '<b class="text-success">['+ i +'] '+ qs['desc'] +'</b><br>'+
+                        '<span>Your Ans &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> : '+ ya +'<br>'+
+                        '<span>Correct Ans &nbsp;</span> : '+ ca +
                     '</div>'+
                 '</div>';
                 i++;
             });
 
             scText +=
-                '<div class="card my-2 bg-warning">'+
+                '<div class="card my-2" style="background-color:#ccffcc;">'+
                     '<div class="card-body align-left">'+
-                        '<b>Summary</b> '+'<br>'+
+                        '<span class="text-warning style="text-align: right; font-weight:bold">Summary</span> '+'<br>'+
                         'Correct: '+ data["answer"][0]["correct"]+'<br>'+
                         'Wrong: '+ data["answer"][0]["wrong"] +'<br>'+
                         'Unattempted</b> '+ data["answer"][0]["unattempted"] +'<br>'+
@@ -295,9 +301,11 @@ function showScore() {
                         '<b>Total </b> '+ data["answer"][0]["score"] +
                     '</div>'+
                 '</div>';
+            scText +=
+            '</div>';
 
             Swal.fire({
-                title: '<strong class="text-warning">Your Score</strong>',
+                title: '<strong class="text-success">Your Score</strong>',
                 //type: 'info',
                 html: scText,
                 showCloseButton: true,
@@ -338,8 +346,9 @@ function showSubmitSuccessNotification()
         confirmButtonColor: '#00c851',
         confirmButtonText: 'View Scoreboard',
         onClose: () => {
-            var url = "../scoreboard/"+quiz_id+"?page=-1";    
-            $(location).attr('href',url);
+            var url = "/scoreboard/"+quiz_id+"/?page=-1";    
+var scoreboard_url = $('meta[name="scr-url"]').attr("content")
+            $(location).attr('href',scoreboard_url);
         }
     });
 }

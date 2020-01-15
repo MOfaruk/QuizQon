@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -16,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name','phone', 'email', 'password',
+        'name', 'level', 'country_code', 'phone', 'email', 'password', 'provider', 'provider_user_id'
     ];
 
     /**
@@ -36,4 +37,26 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function friends()
+    {
+       return $this->belongsToMany('App\User','friend_user','user_id','friend_id')->withTimestamps();;
+    }
+
+    public function addFriend($frnId)
+    {
+        $this->friends()->sync($frnId,false);
+    }
+
+    public function removeFriend($frnId)
+    {
+        $this->friends()->detach($frnId);
+    }
+
+    public function isFriend($userId)
+    {
+        return $this->friends()
+            ->where('friend_id', $userId)
+            ->exists();
+    }
 }

@@ -16,7 +16,9 @@ class QuizController extends Controller
      */
     public function index()
     {
-        //
+        $quizzes = Quiz::orderBy('id','desc')
+                        ->paginate(2);
+        return view('admin.quiz_all',['quizzes'=>$quizzes]);
     }
 
     /**
@@ -26,7 +28,7 @@ class QuizController extends Controller
      */
     public function create()
     {
-        return view('admin.create_quiz');
+        return view('admin.quiz_create');
     }
 
     /**
@@ -37,15 +39,18 @@ class QuizController extends Controller
      */
     public function store(Request $request)
     {
+        //TBD REQUEST VALIDATION
+
         $quiz = new Quiz();
         $quiz->title = $request->qz_title;
         $quiz->desc = $request->qz_desc;
-        $quiz->nQs = $request->qz_nQs;
+        $quiz->nQs = 0;//$request->qz_nQs;
         $quiz->author_id = Auth::user()->id;
         $quiz->start_on = $request->qz_start_on;
         $quiz->duration = $request->qz_duration;
+        $quiz->thumbnail = "thumb-".rand(1,9).".jpeg";
         $quiz->save();
-        
+        /*
         $nQes = $request->qz_nQs;
         for($i=1;$i<=$nQes;$i++)
         {            
@@ -60,10 +65,12 @@ class QuizController extends Controller
             $question->save();
             
         }
+        */
 
         //return redirect()->route('your_url_where_you_want_to_redirect');
         //return Quiz::all();
-        return $request;
+        //return view('admin.quiz_edit',['quiz'=>$quiz,'questions'=>[],'tab'=>'second']);
+        return redirect(route('admin.quiz.edit',$quiz));
     }
 
     /**
@@ -85,7 +92,7 @@ class QuizController extends Controller
      */
     public function edit(Quiz $quiz)
     {
-        //
+        return view('admin.quiz_edit',['quiz'=>$quiz,'questions'=>[],'tab'=>'second']);
     }
 
     /**
@@ -97,7 +104,14 @@ class QuizController extends Controller
      */
     public function update(Request $request, Quiz $quiz)
     {
-        //
+        $quiz = Quiz::findOrFail($quiz->id);
+        $quiz->title = $request->qz_title;
+        $quiz->desc = $request->qz_desc;
+        $quiz->start_on = $request->qz_start_on;
+        $quiz->duration = $request->qz_duration;
+        $quiz->save();
+
+        return back();
     }
 
     /**

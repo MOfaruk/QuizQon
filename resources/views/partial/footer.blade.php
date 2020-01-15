@@ -1,42 +1,63 @@
-<footer class="bg-gray-deep text-center">
-    <div class="container">
-        <div class="row pt-5">
-            <div class="col-lg-4">
-                <h4 class="h4 heading text-white">Some Text</h4>
-                <ul>
-                    <li><a href="#">link</a></li>
-                    <li><a href="#">link</a></li>
-                    <li><a href="#">link</a></li>
-                    <li><a href="#">link</a></li>
-                </ul>
 
-            </div>
-            <div class="col-lg-4">
-                <h4 class="h4 heading text-white">Some Text</h4>
-                <ul>
-                    <li><a href="#">link</a></li>
-                    <li><a href="#">link</a></li>
-                    <li><a href="#">link</a></li>
-                    
+<footer class="page-footer font-small stylish-color-dark pt-4">
+    <div class="container text-center text-md-left">    
+        <div class="row">
+        
+            <div class="col-md-3 mx-auto text-center">                
+                <img src="/images/logo-gray-60x60.png" alt="quizqon-logo-gray" width="40" height="40">
+                <h2 class="text-muted font-weight-bold">QuizQon</h2>
+                <h6 class="text-muted">Online Quiz Contest Organizer</h6>
+            </div>        
+
+            <hr class="clearfix w-100 d-md-none">
+        
+            <div class="col-md-3 mx-auto">
+                <h6 class="text-uppercase mb-4 font-weight-bold">Important Links</h6>
+
+                <ul class="list-unstyled">
+                    <li>
+                    <a href="{{ route('about') }}">About us</a>
+                    </li>
                 </ul>
-            </div>
-            <div class="col-lg-4">
-                <h4 class="h4 heading text-white">Contact Us</h4>
-            </div>
-        </div>
-        <hr>
-        <div class="row text-center mb-3">
-            <div class="col-md-4 offset-md-4">
-                <a href="#"><i class="fa fa-facebook fa-2x green-text ml-2" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-twitter fa-2x green-text ml-2" aria-hidden="true"></i></a>
-                <a href="#"><i class="fa fa-youtube fa-2x green-text ml-2" aria-hidden="true"></i></a>
-            </div>
+            </div>        
+
+            <hr class="clearfix w-100 d-md-none">
+        
+            <div class="col-md-3 mx-auto">
+                <h6 class="text-uppercase mb-4 font-weight-bold">Legal</h6>
+
+                <ul class="list-unstyled">
+                    <li>
+                        <a href="{{ route('privacy') }}">Privacy Policies</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('tou') }}">Terms of use</a>
+                    </li>
+                    <li>
+                        <a href="{{ route('disclaimer') }}">Disclaimer</a>
+                    </li>
+                </ul>
+            </div>        
+
+            <hr class="clearfix w-100 d-md-none">
+        
+            <div class="col-md-3 mx-auto">
+                    <h6 class="text-uppercase mb-4 font-weight-bold">Contact</h6>
+                    <p>
+                      <i class="fa fa-home mr-3"></i> Dhaka, Bangladesh</p>
+                    <p>
+                      <i class="fa fa-envelope mr-3"></i> quizqon@gmail.com</p>
+                    {{-- <p>
+                      <i class="fa fa-phone mr-3"></i> + 01 234 567 89</p> --}}
+                    <p>
+                        <i class="fa fa-facebook mr-3"></i><a href="https://facebook.com/quizqon">QuizQon FB page</a> </p>
+                    <p>
+                    <i class="fa fa-globe mr-3"></i> <a href="{{route('contact')}}">Contact Us</a></p>
+            </div>        
         </div>
     </div>
-    <div class="container-fluid bg-black-deep py-1">
-        <div class="row">
-            <div class="col-md-6 offset-md-3 text-center">Copyright 2018</div>
-        </div>
-        
+
+    <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="{{ route('home')}}"> QuizQon.com</a>
     </div>
 </footer>

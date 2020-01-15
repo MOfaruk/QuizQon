@@ -13,6 +13,12 @@ use \Illuminate\Pagination\Paginator;
 
 class QuizControllerUser extends Controller
 {
+    public function showQuizDescription($id)
+    {
+        $quiz = Quiz::where('id',$id)
+                        ->get();
+        return view('user.quiz.description')->with('quiz',$quiz[0]);
+    }
     public function show($id)
     {
         $quiz = Quiz::where('id',$id)
@@ -23,7 +29,7 @@ class QuizControllerUser extends Controller
 
         $diff = Carbon::parse($quiz[0]->start_on)->diffInSeconds(Carbon::now()->toDateString());
 
-        return view('user.quiz')->with('quiz',$quiz[0]);
+        return view('user.quiz.arena')->with('quiz',$quiz[0]);
     }
 
     public function getquiz($id)
@@ -88,7 +94,7 @@ class QuizControllerUser extends Controller
             if(isset($ans['qs_'.$i]))
                 $ansTemp = $ans['qs_'.$i];
             else
-                $ansTemp = 0;
+                $ansTemp = -1; //not tried
 
             //answer matching
             if($ansTemp == 0)
@@ -129,31 +135,31 @@ class QuizControllerUser extends Controller
 
     public function scoreboard(Request $request, $id)
     {
-        $quiz = Quiz::where('id',$id)
-                    ->get();
+        $quiz = Quiz::findOrFail($id);
+                    //->get();
         if($quiz->count())
         {
-            $diff = Carbon::parse($quiz[0]->start_on)->diffInSeconds(Carbon::now()->toDateString());
+            $diff = Carbon::parse($quiz->start_on)->diffInSeconds(Carbon::now()->toDateString());
             if( $diff < 60)
-                return $this->showPendingScore($request,$id);
+                return $this->showPendingScore($request,$quiz);
             else
-                return $this->showFinalScore($request,$id);
+                return $this->showFinalScore($request,$quiz);
         }
         
     }
 
-    public function showPendingScore(Request $request, $quiz_id)
+    public function showPendingScore(Request $request, $quiz)
     {
         if($request->input('page')== -1) // -1 for user position page
         {
             $ans =  DB::table('answers')
-                        ->where('quiz_id',$quiz_id)
+                        ->where('quiz_id',$quiz->id)
                         ->where('user_id',Auth::user()->id)
                         ->get();
             $ansId =  $ans[0]->id;
 
             $myAnsIndex = DB::table('answers')
-                            ->where('quiz_id',$quiz_id)
+                            ->where('quiz_id',$quiz->id)
                             ->where('id','<=',$ansId)
                             ->get()
                             ->count();
@@ -170,21 +176,21 @@ class QuizControllerUser extends Controller
         //        
         $score = DB::table('answers')
                 ->rightJoin('users','users.id','=','answers.user_id')
-                ->where('answers.quiz_id',$quiz_id)
+                ->where('answers.quiz_id',$quiz->id)
                 //->orderBy('score','desc')
                 ->select('users.name','answers.score','answers.correct','answers.wrong','answers.unattempted')
                 ->paginate(2);
                 //->get(['users.name','answers.score','answers.correct','answers.wrong','answers.unattempted']);
                 //->paginate(5,['id','name','username'.....]);
-        return view('user.scoreboard')->with(['score'=>$score,'size'=>0/*$score->count()*/]);
+        return view('user.quiz.scoreboard')->with(['score'=>$score,'size'=>0/*$score->count()*/,'quiz'=>$quiz ]);
     }
 
-    public function showFinalScore(Request $request, $quiz_id)
+    public function showFinalScore(Request $request, $quiz)
     {
         /*
         $score = DB::table('answers')
                 ->rightJoin('users','users.id','=','answers.user_id')
-                ->where('answers.quiz_id',$quiz_id)
+                ->where('answers.quiz_id',$quiz->id)
                 ->orderBy('score','desc')
                 //->select('users.name','answers.score','answers.correct','answers.wrong','answers.unattempted')
                 //->paginate(2);
@@ -192,13 +198,14 @@ class QuizControllerUser extends Controller
                 //->paginate(5,['id','name','username'.....]);
                 //->get();
         */
+        //return $quiz;
                 
         if($request->input('page')== -1) // -1 for user position page
         {
             
             $score = DB::table('answers')
             //->rightJoin('users','users.id','=','answers.user_id')
-            ->where('quiz_id',$quiz_id)
+            ->where('quiz_id',$quiz->id)
             ->orderBy('score','desc')
             ->orderBy('solve_time','asc')
             //->select('users.name','answers.score','answers.correct','answers.wrong','answers.unattempted')
@@ -228,17 +235,17 @@ class QuizControllerUser extends Controller
         
         $viewData = DB::table('answers')
                 ->rightJoin('users','users.id','=','answers.user_id')
-                ->where('answers.quiz_id',$quiz_id)
+                ->where('answers.quiz_id',$quiz->id)
                 ->orderBy('score','desc')                
                 ->orderBy('solve_time','asc')
                 ->select('users.id','name','score','correct','wrong','unattempted','solve_time')
-                ->paginate(2);
+                ->paginate(10);
                 //->get(['users.id','users.name','answers.score','answers.correct','answers.wrong','answers.unattempted']);
                 //->paginate(5,['id','name','username'.....]);
                 //->get();
         //return $viewData;
         
-        return view('user.scoreboard')->with(['score'=>$viewData]);
+        return view('user.quiz.scoreboard')->with(['score'=>$viewData,'quiz'=>$quiz]);
 
 
     }
@@ -254,5 +261,29 @@ class QuizControllerUser extends Controller
         if($answer->count())
             return ['questions'=>$question,'answer'=>$answer];
         return [];
+    }
+
+    public function solution($id, $title = NULL)
+    {
+        $bUserAns = request()->bUserAns;
+        $userAns = [];
+        if($bUserAns)
+        {
+            $ans = Answer::where('quiz_id',$id)
+                                ->where('user_id',Auth::id())
+                                ->first();
+            if($ans)
+                $userAns = json_decode($ans->ans_json);
+        }
+        
+        $qsWithAns = Question::where('quiz_id',$id)
+                            ->get();
+        $quiz = Quiz::findOrFail($id);
+        return view('user.quiz.solution',[
+            'qsWithAns'=>$qsWithAns,
+            'quiz'=>$quiz,
+            'bUserAns'=>$bUserAns,
+            'userAns'=>$userAns
+            ]);
     }
 }
