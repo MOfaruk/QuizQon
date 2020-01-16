@@ -9,7 +9,7 @@
         </div>
     </div> --}}
     <div class="row">
-        <div class="col-sm-8 offset-sm-2 mb-3">
+        <div class="col-md-8 offset-md-2 mb-3">
             <div class="custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="myAnswerSwitch" {{ $bUserAns==true? 'checked':''}}>
                 <label class="custom-control-label" for="myAnswerSwitch">Show my answers</label>
@@ -18,9 +18,12 @@
     </div>
     <div class="row mb-5">
         @foreach ($qsWithAns as $key=>$item)
-        <div class="card shadow-sm border-success form-group col-sm-8 offset-sm-2 option-container p-4">
-        <label class="form-control-label col-lg-3"><b>[{{ $key+1}}] {!!$item->desc!!}</b></label>
-            <div class="col-sm-12 options">
+        <div class="card shadow-sm border-success form-group col-md-8 offset-md-2 option-container p-4">
+            <div class="row">
+                <label class="form-control-label col-md-8"><b>[{{ $key+1}}] {!!$item->desc!!}</b>
+                </label>
+            </div>
+            <div class="col-md-12 options">
                 <div class="mb-2">
                     <div class="custom-control custom-radio d-inline w-10">
                         <input type="radio" name="qs_{{$key+1}}" value="1" class="custom-control-input" {{ $item->correct==1? 'checked':'disabled'}}>
@@ -51,7 +54,7 @@
                 </div>
                 <div class="mb-2">
                     @if($bUserAns)
-                    <b>Your Ans:</b> 
+                    <b>Your Answer:</b> 
                     @php
                      foreach ($userAns as  $ans) {
                          if($ans->qsId == $item->id)

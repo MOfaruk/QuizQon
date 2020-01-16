@@ -13,6 +13,7 @@
 
 Auth::routes();
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/search/{term?}', 'HomeController@search')->name('search');
 
 //User Quiz Routes
 Route::group(['prefix'=>'quiz','as'=>'quiz.','middleware' => 'auth'], function () 

@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md bg-dark navbar-dark shadow-none">
     <div class="container">
-        <a class="navbar-brand" href="#">        
+    <a class="navbar-brand" href="{{route('home')}}">        
             <img src="/images/logo_65x65.png" width="30" height="30" alt="quizqon-logo">
             <span class="font-weight-bold" style="color:#4dcb44">Quiz</span>
             <span class="font-weight-bold" style="color:#f9a110">Qon</span>

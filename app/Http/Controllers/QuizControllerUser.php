@@ -120,6 +120,7 @@ class QuizControllerUser extends Controller
             $answer->score = $score;
             $answer->solve_time = $request->solveTime;
             $answer->ans_json = json_encode($ansArray);
+            $answer->user_ip = request()->ip();
             $answer->save();
 
             $msgcode = '1000';
@@ -215,7 +216,7 @@ class QuizControllerUser extends Controller
             ->get();
 
 
-            $myAnsIndex;
+            $myAnsIndex=-1;
             foreach ($score as $key => $sc) 
             {
                 if($sc->user_id == Auth::user()->id)

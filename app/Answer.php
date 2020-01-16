@@ -13,6 +13,7 @@ class Answer extends Model
         'wrong',
         'unattempted',
         'score',
-        'ans_json'
+        'ans_json',
+        'user_ip'
     ];
 }

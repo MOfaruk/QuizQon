@@ -31,15 +31,18 @@ class HomeController extends Controller
     public function index()
     {
         $upQuiz = Quiz::where('start_on','>=',Carbon::today()->toDateString())
-                        ->get();
+                        ->orderBy('start_on','asc')
+                        //->get();
+                        ->paginate(10);
         $prvQuiz = Quiz::where('start_on','<',Carbon::today()->toDateString())
                         //->get();
                         ->paginate(10);
-        //
+        //Recent Quizzes user missed
         $perticipated = Answer::where('user_id',Auth::id())
                                 ->pluck('quiz_id');
         $quizIds = json_decode($perticipated,true);
-        $recentQuiz = Quiz::whereNotIn('id',$quizIds)
+        $recentQuiz = Quiz::where('start_on','<',Carbon::today()->toDateString())
+                            ->whereNotIn('id',$quizIds)
                             ->orderBy('start_on','DESC')
                             ->paginate(10);                
         //dd( $recentQuiz);
@@ -72,5 +75,14 @@ class HomeController extends Controller
                 'permanent' => '',
             ];
         return $personal;
+    }
+
+    public function search($term=NULL)
+    {
+        if($term == NULL)
+            $term = request()->get('query');
+
+        $quizzes = Quiz::where('title','LIKE','%'.$term.'%')->paginate(15);
+        return view('user.quizlist',['quizzes'=>$quizzes]);
     }
 }

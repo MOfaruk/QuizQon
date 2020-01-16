@@ -6,17 +6,18 @@
 <section>    
     <div class="container-fluid bg-green-light shadow-sm" style="background-image: linear-gradient(150deg, #4dcb44, #96da70,#5bce52)">
         <div class="row pb-5">
-            <div class="col-md-6 offset-md-3" id="search-bar">
+            <div class="col-md-12" id="search-bar">
                 <h3 class="h3 text-center mt-5 mb-3 text-white">Search for Quizzes</h3>
-                <!-- <div class="rounded-div bg-white">
-                    <input type="text" class="form-control" style="border-radius:2rem;width:100%; height:45px">
-                </div> -->
-                <div class="input-group mb-3 ">
-                  <input type="text" class="form-control z-depth-2" placeholder="search ..." aria-describedby="basic-addon2" style="border-top-left-radius:1.5rem; border-bottom-left-radius:1.5rem; height:45px">
-                  <div class="input-group-append" >
-                    <span class="input-group-text bg-green-light z-depth-2" id="basic-addon2" style="border-top-right-radius:1.5rem; border-bottom-right-radius:1.5rem; height:45px;    background-color: #4dcb44;border: 3px solid #ffffff; color: #ffffff;cursor: pointer;">search</span>
-                  </div>
-                </div>
+                    {{ Form::open(['route' => 'search', 'method'=>'GET','name'=>'myform']) }}
+
+                    <div class="d-flex justify-content-center h-100">
+                        <div class="searchbar col-sm-12 col-md-6">
+                          <input class="search_input" type="text" name="query" placeholder="Search...">
+                          <a type="submit" href="#" class="search_icon" onclick="myform.submit()"><i class="fa fa-search"></i></a>
+                        </div>
+                    </div>
+
+                    {{ Form::close() }}
             </div>
         </div>
     </div>        
@@ -33,24 +34,30 @@
             <div class="col-lg-12 col-md-12 mb-2">
                 <!--Card-->
                 <div class="card flex-row flex-wrap">
-                    <div class="card-header border-0 col-md-2">
-                        <img src="{{ asset('storage/quiz-thumbnails')."/".$quiz->thumbnail }}" class="img-fluid img-thumbnail mw-50" alt="">
+                    <div class="view overlay border-0 col-md-2">
+                        <img src="{{ asset('storage/quiz-thumbnails')."/".$quiz->thumbnail }}" class="card-img-top" alt="quiz thumbnail">
+                        <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}">
+                            <div class="mask rgba-white-sligh"></div>
+                        </a>
                     </div>
                     <div class="card-block px-2 col-md-8 p-2">
-                        <h4 class="card-title"><strong>{{ str_limit($quiz->title, 70) }} </strong></h4>
-                        <p class="card-text">
-                                {{ str_limit($quiz->desc, 200) }}  <br>                            
-                            <b>Starts In: </b> 
+                        <h4 class="card-title">
+                            <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}">
+                                {{ str_limit($quiz->title, 70) }}
+                            </a>
+                        </h4>
+                        <p class="card-text">    
+                            <b>Starts at: </b> 
                             {{ \Carbon\Carbon::parse($quiz->start_on)->format('h:i A, l, F j,Y') }}
                             <br><b>Duration:</b> {{ $quiz->duration }} minutes
                         </p>
                     </div>
-                    <div class="col-md-2 text-center">
+                    <div class="col-md-2 text-center pb-2">
                         <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" 
-                            class="btn btn-primary btn-md btn-block my-2">
-                            Start
+                            class="btn btn-success btn-md btn-block my-2">
+                            Enter
                         </a>
-                        <a href="{{ route('quiz.scoreboard',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" class="btn btn-secondary btn-md btn-block">Score Board</a>
+                        <a href="{{ route('quiz.scoreboard',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" class="btn btn-info btn-md btn-block">Score Board</a>
                     </div>
                 </div>
                 <!--/.Card-->                
@@ -75,20 +82,26 @@
             <div class="col-lg-12 col-md-12 mb-2">
                 <!--Card-->
                 <div class="card flex-row flex-wrap">
-                    <div class="card-header border-0 col-md-2">
-                        <img src="{{ asset('storage/quiz-thumbnails')."/".$quiz->thumbnail }}" class="img-fluid img-thumbnail mw-50" alt="">
+                    <div class="view overlay border-0 col-md-2">
+                        <img src="{{ asset('storage/quiz-thumbnails')."/".$quiz->thumbnail }}" class="card-img-top" alt="quiz thumbnail">
+                        <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}">
+                            <div class="mask rgba-white-sligh"></div>
+                        </a>
                     </div>
                     <div class="card-block px-2 col-md-8 p-2">
-                        <h4 class="card-title"><strong>{{ str_limit($quiz->title, 70) }} </strong></h4>
+                        <h4 class="card-title">
+                            <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}">
+                                {{ str_limit($quiz->title, 70) }}
+                            </a>
+                        </h4>
                         <p class="card-text">
-                            {{ str_limit($quiz->desc, 200) }} <br>                            
-                            <b>Starts In: </b> 
-                            {{ \Carbon\Carbon::parse($quiz->start_on)->format('h:i A, l, F j,Y') }}
+                            <b>Starts at: </b>
+                            {{ \Carbon\Carbon::parse($quiz->start_on)->diffForHumans(\Carbon\Carbon::now(), true) }} later
                             <br><b>Duration:</b> {{ $quiz->duration }} minutes
                         </p>
                     </div>
                     <div class="col-md-2 text-center">
-                        <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" class="btn btn-primary btn-md btn-block my-2">Start</a>
+                        <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" class="btn btn-success btn-md btn-block my-2">Enter</a>
                     </div>
                 </div>
                 <!--/.Card-->                
@@ -111,24 +124,30 @@
             <div class="col-lg-12 col-md-12 mb-2">
                 <!--Card-->
                 <div class="card flex-row flex-wrap">
-                    <div class="card-header border-0 col-md-2">
-                        <img src="{{ asset('storage/quiz-thumbnails')."/".$quiz->thumbnail }}" class="img-fluid img-thumbnail mw-50" alt="">
+                    <div class="view overlay border-0 col-md-2">
+                        <img src="{{ asset('storage/quiz-thumbnails')."/".$quiz->thumbnail }}" class="card-img-top" alt="quiz thumbnail">
+                        <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}">
+                            <div class="mask rgba-white-sligh"></div>
+                        </a>
                     </div>
                     <div class="card-block px-2 col-md-8 p-2">
-                        <h4 class="card-title"><strong>{{ str_limit($quiz->title, 70) }} </strong></h4>
-                        <p class="card-text">
-                                {{ str_limit($quiz->desc, 200) }}  <br>                            
-                            <b>Starts In: </b> 
-                            {{ \Carbon\Carbon::parse($quiz->start_on)->format('h:i A, l, F j,Y') }}
+                        <h4 class="card-title">
+                            <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}">
+                                {{ str_limit($quiz->title, 70) }}
+                            </a>
+                        </h4>
+                        <p class="card-text">    
+                            <b>Started on: </b> 
+                            {{ \Carbon\Carbon::parse($quiz->start_on)->format('F j, Y') }}
                             <br><b>Duration:</b> {{ $quiz->duration }} minutes
                         </p>
                     </div>
-                    <div class="col-md-2 text-center">
+                    <div class="col-md-2 text-center pb-2">
                         <a href="{{ route('quiz.description',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" 
-                            class="btn btn-primary btn-md btn-block my-2">
-                            Start
+                            class="btn btn-success btn-md btn-block my-2">
+                            Enter
                         </a>
-                        <a href="{{ route('quiz.scoreboard',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" class="btn btn-secondary btn-md btn-block">Score Board</a>
+                        <a href="{{ route('quiz.scoreboard',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" class="btn btn-info btn-md btn-block">Score Board</a>
                     </div>
                 </div>
                 <!--/.Card-->                
@@ -143,3 +162,7 @@
 </section> 
 
 @endsection
+
+@push('head')
+<link rel="stylesheet" type="text/css" href="{{ asset('css/searchbar.css')}}">
+@endpush

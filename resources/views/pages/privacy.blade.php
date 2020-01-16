@@ -5,7 +5,7 @@
     <div class="container mb-5">
         <div class="row">
             <div class="col-md-8 mx-auto">            
-                <h2 class="h1 text-center my-5">PRIVACY POLICIES</h2>
+                <h2 class="h1 text-center my-5">PRIVACY POLICY</h2>
             </div>
         </div>
         <div class="row text-left">

@@ -23,6 +23,7 @@ class CreateAnswersTable extends Migration
             $table->float('score');
             $table->integer('solve_time');
             $table->json('ans_json');
+            $table->ipAddress('user_ip');
             $table->timestamps();
 
             $table->unique(['user_id','quiz_id']);
