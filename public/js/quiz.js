@@ -24,7 +24,7 @@ $.ajaxSetup({
 
 async function loadAndInsertData()
 {
-    console.log("loaddata()");
+    //console.log("loaddata()");
     jQuery.ajax({
         url:'/quiz-api/'+quiz_id,
         type: 'GET',

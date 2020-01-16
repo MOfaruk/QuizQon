@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Quiz;
 use App\Question;
 use Illuminate\Http\Request;
+use \Carbon\Carbon;
 use Auth;
 
 class QuizController extends Controller
@@ -45,8 +46,8 @@ class QuizController extends Controller
         $quiz->title = $request->qz_title;
         $quiz->desc = $request->qz_desc;
         $quiz->nQs = 0;//$request->qz_nQs;
-        $quiz->author_id = Auth::user()->id;
-        $quiz->start_on = $request->qz_start_on;
+        $quiz->author_id = Auth::user()->id;        
+        $quiz->start_on = Carbon::parse($request->qz_start_on, 'Asia/Dhaka')->setTimezone('UTC');;
         $quiz->duration = $request->qz_duration;
         $quiz->thumbnail = "thumb-".rand(1,9).".jpeg";
         $quiz->save();
@@ -107,7 +108,7 @@ class QuizController extends Controller
         $quiz = Quiz::findOrFail($quiz->id);
         $quiz->title = $request->qz_title;
         $quiz->desc = $request->qz_desc;
-        $quiz->start_on = $request->qz_start_on;
+        $quiz->start_on = Carbon::parse($request->qz_start_on, 'Asia/Dhaka')->setTimezone('UTC');
         $quiz->duration = $request->qz_duration;
         $quiz->save();
 

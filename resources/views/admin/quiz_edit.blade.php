@@ -26,14 +26,14 @@
             <div class="card-body">
               <div class="tab-content" id="custom-tabs-one-tabContent">
                 <div class="tab-pane fade {{$tab=='first'?'active show':''}}" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tab-one">
-                    {{ Form::open(array('action' => 'QuizController@store')) }}
+                    {{ Form::open(array('route' => ['admin.quiz.update',$quiz->id],'method'=>'PUT')) }}
                     <div class="form-group">
                         <label for="exampleInputEmail1">Title</label>
                         <input type="text" class="form-control w-50" name="qz_title" placeholder="title" value="{{ $quiz->title }}" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Start Time</label>
-                        <input type="datetime-local" class="form-control w-50" name="qz_start_on"  value="{{ date('Y-m-d\TH:i',strtotime($quiz->start_on)) }}" required>
+                        <input type="datetime-local" class="form-control w-50" name="qz_start_on"  value="{{ date('Y-m-d\TH:i',strtotime(\Carbon\Carbon::parse($quiz->start_on)->setTimezone('Asia/Dhaka'))) }}" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Duration(in Min)</label>
@@ -49,7 +49,7 @@
                     <input type="number" class="form-control w-50" min="1" max="25" name="qz_nQs" placeholder="number of qestion">
                     --}}
 
-                    <button type="submit" href="{{route('admin.quiz.update',$quiz)}}" class="btn btn-success">Update</button type="submit">
+                    <button type="submit" href="#!" class="btn btn-success">Update</button type="submit">
                     
                     {{ Form::close() }}
                 </div>

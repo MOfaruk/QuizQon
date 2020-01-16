@@ -54,7 +54,7 @@
                                         <td>{{ $quiz->duration }}</td>
                                         <td>{{ $quiz->start_on }}</td>
                                         <td>
-                                          <a href="{{route('admin.quiz.edit',[1])}}" class="btn btn-sm btn-success">Edit</a>
+                                          <a href="{{route('admin.quiz.edit',$quiz->id)}}" class="btn btn-sm btn-success">Edit</a>
                                           <a href="#" class="btn btn-sm btn-danger">Delete</a>
                                         </td>
                                     </tr>
