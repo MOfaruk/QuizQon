@@ -18,18 +18,18 @@ Route::get('/search/{term?}', 'HomeController@search')->name('search');
 //User Quiz Routes
 Route::group(['prefix'=>'quiz','as'=>'quiz.','middleware' => 'auth'], function () 
 {
-    Route::get('/{id}/{title?}', ['as'=>'arena','uses'=>'QuizControllerUser@show']);
-    Route::get('/description/{id}/{title?}', ['as'=>'description','uses'=>'QuizControllerUser@showQuizDescription']);
-    Route::get('/scoreboard/{id}/{title?}', ['as'=>'scoreboard','uses'=>'QuizControllerUser@scoreboard']);
-    Route::get('/solution/{id}/{title?}', ['as'=>'solution','uses'=>'QuizControllerUser@solution']);
+    Route::get('/{id}/{title?}', ['as'=>'arena','uses'=>'UserQuizController@show']);
+    Route::get('/description/{id}/{title?}', ['as'=>'description','uses'=>'UserQuizController@showQuizDescription']);
+    Route::get('/scoreboard/{id}/{title?}', ['as'=>'scoreboard','uses'=>'UserQuizController@scoreboard']);
+    Route::get('/solution/{id}/{title?}', ['as'=>'solution','uses'=>'UserQuizController@solution']);
 });
 
 //User Quiz APIs Routes
 Route::group(['middleware' => 'auth'], function () 
 {
-    Route::get('/quiz-api/{id}','QuizControllerUser@getquiz');
-    Route::post('/quiz-api/{id}','QuizControllerUser@submitquiz');
-    Route::get('/score-api/{qzId}','QuizControllerUser@showScore');
+    Route::get('/quiz-api/{id}','UserQuizController@getquiz');
+    Route::post('/quiz-api/{id}','UserQuizController@submitquiz');
+    Route::get('/score-api/{qzId}','UserQuizController@showScore');
 });
 
 //User Dashboard Routes

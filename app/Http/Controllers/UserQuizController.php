@@ -11,7 +11,7 @@ use Auth;
 use \Carbon\Carbon;
 use \Illuminate\Pagination\Paginator;
 
-class QuizControllerUser extends Controller
+class UserQuizController extends Controller
 {
     public function showQuizDescription($id)
     {
