@@ -264,7 +264,7 @@ class UserQuizController extends Controller
     }
 
     public function solution($id, $title = NULL)
-    {
+    {        
         $bUserAns = request()->bUserAns;
         $userAns = [];
         if($bUserAns)
@@ -278,12 +278,23 @@ class UserQuizController extends Controller
         
         $qsWithAns = Question::where('quiz_id',$id)
                             ->get();
+        
         $quiz = Quiz::findOrFail($id);
+
+        $quiz_end = Carbon::parse($quiz->start_on)->addMinutes($quiz->duration);
+        if( Carbon::now()->greaterThan($quiz_end) )// start_time + duration < now
+            return view('user.quiz.solution',[
+                'qsWithAns'=>$qsWithAns,
+                'quiz'=>$quiz,
+                'bUserAns'=>$bUserAns,
+                'userAns'=>$userAns
+                ]);
+        
         return view('user.quiz.solution',[
-            'qsWithAns'=>$qsWithAns,
+            'qsWithAns'=>[],
             'quiz'=>$quiz,
             'bUserAns'=>$bUserAns,
-            'userAns'=>$userAns
+            'userAns'=>NULL
             ]);
-    }
+}
 }
