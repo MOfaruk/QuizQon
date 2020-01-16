@@ -141,39 +141,39 @@ function insertIntoBody()
     console.log('start time :'+ waitTime);
     var i=1;
     loadedData['quiz'].forEach(qs => {
-        opId = qs['id'];
+        qsId = qs['id'];
         var text = 
         '<div class="card form-group col-sm-8 offset-md-2 option-container p-4">'+
-            '<label class="form-control-label col-lg-3"><b>['+i++ + '] ' + qs['desc'] +'</b></label>'+
+            '<label class="form-control-label col-lg-3"><b>['+ i++ + '] ' + qs['desc'] +'</b></label>'+
             '<div class="col-sm-12 options">'+
                 '<div class="mb-2">'+
                     '<div class="custom-control custom-radio d-inline w-10">'+
-                        '<input type="radio" name="qs_'+ opId +'" value="1" class="custom-control-input" id="'+ opId+1 +'">'+
-                        '<label class="custom-control-label" for="'+ opId+1 +'"></label>'+
+                        '<input type="radio" name="qs_'+ qsId +'" value="1" class="custom-control-input" id="'+ qsId+1 +'">'+
+                        '<label class="custom-control-label" for="'+ qsId+1 +'"></label>'+
                     '</div>'+
                     qs['option1']+
                     '<!-- No delete btn for first input -->'+
                 '</div>'+
                 '<div class="mb-2">'+
                     '<div class="custom-control custom-radio d-inline w-10">'+
-                        '<input type="radio" name="qs_'+ opId +'" value="2" class="custom-control-input" id="'+ opId+2 +'">'+
-                        '<label class="custom-control-label" for="'+ opId+2 +'"></label>'+
+                        '<input type="radio" name="qs_'+ qsId +'" value="2" class="custom-control-input" id="'+ qsId+2 +'">'+
+                        '<label class="custom-control-label" for="'+ qsId+2 +'"></label>'+
                     '</div>'+
                     qs['option2']+
                     '<!-- No delete btn for first input -->'+
                 '</div>'+
                 '<div class="mb-2">'+
                     '<div class="custom-control custom-radio d-inline w-10">'+
-                        '<input type="radio" name="qs_'+ opId +'" value="3" class="custom-control-input" id="'+ opId+3 +'">'+
-                        '<label class="custom-control-label" for="'+ opId+3 +'"></label>'+
+                        '<input type="radio" name="qs_'+ qsId +'" value="3" class="custom-control-input" id="'+ qsId+3 +'">'+
+                        '<label class="custom-control-label" for="'+ qsId+3 +'"></label>'+
                     '</div>'+
                     qs['option3']+
                     '<!-- No delete btn for first input -->'+
                 '</div>'+
                 '<div class="mb-2">'+
                     '<div class="custom-control custom-radio d-inline w-10">'+
-                        '<input type="radio" name="qs_'+ opId +'" value="4" class="custom-control-input" id="'+ opId+4 +'">'+
-                        '<label class="custom-control-label" for="'+ opId+4 +'"></label>'+
+                        '<input type="radio" name="qs_'+ qsId +'" value="4" class="custom-control-input" id="'+ qsId+4 +'">'+
+                        '<label class="custom-control-label" for="'+ qsId+4 +'"></label>'+
                     '</div>'+
                     qs['option4']+
                     '<!-- No delete btn for first input -->'+
@@ -181,7 +181,6 @@ function insertIntoBody()
                 
             '</div>'+
         '</div>';
-        ;
         $('#qs_container').append(text);
     });
 
@@ -338,7 +337,7 @@ function showSubmittingNotification()
 
 function showSubmitSuccessNotification() 
 {    
-    Swal.close();
+    //Swal.close();
     Swal.fire({
         type: 'success',
         title: '',
@@ -347,7 +346,7 @@ function showSubmitSuccessNotification()
         confirmButtonText: 'View Scoreboard',
         onClose: () => {
             var url = "/scoreboard/"+quiz_id+"/?page=-1";    
-var scoreboard_url = $('meta[name="scr-url"]').attr("content")
+            var scoreboard_url = $('meta[name="scr-url"]').attr("content");
             $(location).attr('href',scoreboard_url);
         }
     });

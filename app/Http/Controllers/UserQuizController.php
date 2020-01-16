@@ -79,7 +79,6 @@ class UserQuizController extends Controller
         $data = $request->data;        
         $ans = array();
         parse_str($data, $ans);
-
         $question = Question::where('quiz_id',$id)
                             ->get();
         
@@ -97,7 +96,7 @@ class UserQuizController extends Controller
                 $ansTemp = -1; //not tried
 
             //answer matching
-            if($ansTemp == 0)
+            if($ansTemp == -1)
                 $unattempted++;
             else if($ansTemp == $question[$i-1]->correct)
                 $correct++;
