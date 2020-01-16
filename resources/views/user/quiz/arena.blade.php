@@ -28,14 +28,10 @@
         </div>
     </form>
 </section>
-   
-
 
 @endsection
 
-@section('link-act-arena')
-active
-@endsection
+@section('link-act-arena','active')
 
 @push('head')
 <meta name="quiz-id" content="{{ $quiz->id }}">

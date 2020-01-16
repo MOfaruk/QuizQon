@@ -11,6 +11,9 @@
         </div>
     </div> --}}
     <div class="row">
+        <div class="row adsense">
+            @include('partial.ad-square-one')
+        </div>
         <div class="col-sm">
             <table class="table table-striped table-hover table-responsive-sm">
                 <thead class="thead-dark"> 

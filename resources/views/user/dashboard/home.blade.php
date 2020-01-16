@@ -4,7 +4,9 @@
 
 @section('dashboard-content')
 
-
+<div class="row adsense">
+    @include('partial.ad-square-one')
+</div>
 <div class="card-body row text-center">
     <div class="col-sm-6">
         <h2 id="totQuiz">loading...</h2>

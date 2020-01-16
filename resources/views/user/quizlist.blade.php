@@ -23,7 +23,9 @@
 
                 {{ Form::close() }}
             </div>
-            
+            <div class="row adsense">
+                @include('partial.ad-square-one')
+            </div>
             @foreach($quizzes as $quiz)
             <!--Grid column-->
             <div class="col-lg-12 col-md-12 mb-2">

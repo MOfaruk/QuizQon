@@ -34,7 +34,16 @@
 
     <!--Main layout-->
     <main>
-        @yield('content')
+    
+    <div class="row adsense">
+        @include('partial.ad-banner-one')
+    </div>
+        
+    @yield('content')
+
+    <div class="row adsense">
+        @include('partial.ad-banner-two')
+    </div>
         
     <div id="fb-root"></div>
     </main>

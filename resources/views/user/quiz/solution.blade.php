@@ -16,6 +16,9 @@
             </div> 
         </div>
     </div>
+    <div class="row adsense">
+        @include('partial.ad-square-one')
+    </div>
     <div class="row mb-5">
         @foreach ($qsWithAns as $key=>$item)
         <div class="card shadow-sm border-success form-group col-md-8 offset-md-2 option-container p-4">

@@ -45,7 +45,7 @@ async function loadAndInsertData()
                 insertIntoBody();
             }
             
-            if(data['prev']==1)
+            if(data['prev']>=1)
                 $('#btnShowScore').removeClass('d-none');
         },
         error: function (xhr, b, c) {
@@ -70,7 +70,7 @@ var x = setInterval(function() {
     //console.log(countDownTime);
 
     //1.1 Time calculations for days, hours, minutes and seconds
-    if(waitTime >=2)
+    if(waitTime >=1)
     {
         var days = Math.floor(waitTime / ( 60 * 60 * 24));
         var hours = Math.floor((waitTime % ( 60 * 60 * 24)) / ( 60 * 60));
@@ -86,7 +86,7 @@ var x = setInterval(function() {
     }
 
     //2.0 Quiz Start
-    else if ( (waitTime < 2 ) && !bQuizLoaded) 
+    else if ( (waitTime < 1 ) && !bQuizLoaded) 
     {
         loadAndInsertData();
         //clearInterval(x);

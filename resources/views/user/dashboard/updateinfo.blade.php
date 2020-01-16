@@ -45,6 +45,9 @@
         </div>
     </div>
 </div>
+<div class="row adsense">
+    @include('partial.ad-square-one')
+</div>
 <div class="card-body col-sm-10 offset-sm-1 mt-5">
         <h4 class="card-title">Other Information</h4>
         <hr class="border-success">

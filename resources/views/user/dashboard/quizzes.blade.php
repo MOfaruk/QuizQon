@@ -28,6 +28,9 @@
         </div>
     </div>
     @endforeach
+    <div class="row adsense">
+        @include('partial.ad-square-one')
+    </div>
 
 </div>
 <div class="mt-3">

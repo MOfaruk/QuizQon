@@ -28,6 +28,9 @@
         <div class="col-md-4 offset-md-4 rounded-div">
             <h2 class="h1 text-center my-5">Recent Quizzes</h2>
         </div>
+        <div class="row adsense">
+            @include('partial.ad-square-one')
+        </div>
         <div class="row text-left">
             @foreach($recentQuiz as $quiz)
             <!--Grid column-->

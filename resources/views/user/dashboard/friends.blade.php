@@ -13,6 +13,9 @@
 
     <div class="card-body">
         <h2>Friends</h2>
+        <div class="row adsense">
+            @include('partial.ad-square-one')
+        </div>
         <table class="table">
             <thead>
                 <tr>

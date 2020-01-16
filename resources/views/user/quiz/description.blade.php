@@ -16,6 +16,9 @@
         <hr class="my-5">
     </div>
 </div>
+<div class="row adsense">
+    @include('partial.ad-square-one')
+</div>
 <div class="row">
     <div class="col-md-8 offset-md-1">
         <div>
