@@ -24,14 +24,16 @@
             </form>
         </div>
         <div class="col offset-sm-1">
-                <h4 class="card-title">Password</h4>
+                <h4 class="card-title">Create/Update Password</h4>
                 <hr class="border-success">
                 <form action="{{ route('dashboard.update_password') }}" method="POST">
                     {{ csrf_field() }}
+                    @if(Auth::User()->password != NULL)
                     <div class="form-group">
                         <label for="current">Current Password:</label>
                         <input type="password" class="form-control" id="current" name="current" required>
                     </div>
+                    @endif
                     <div class="form-group">
                         <label for="password">New:</label>
                         <input type="password" class="form-control" id="password" name="password" required>

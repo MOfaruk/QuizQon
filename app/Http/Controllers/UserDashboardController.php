@@ -143,11 +143,21 @@ class UserDashboardController extends Controller
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'current' => ['required'],
+            //'current' => ['required'], no concern with old
             'password' => ['confirmed','required', 'min:6'],
         ]);
 
-        $current_password = Auth::User()->password;           
+        $current_password = Auth::User()->password;
+
+        if($current_password == NULL)
+        {
+            $user_id = Auth::User()->id;                       
+            $obj_user = User::find($user_id);
+            $obj_user->password = Hash::make($request->input('password'));
+            $obj_user->save(); 
+            return back()->with('msg',['type'=>'success','info' => 'Password changed successfully!']);
+        }
+        //else    
         if(Hash::check($request->input('current'), $current_password))
         {          
             $user_id = Auth::User()->id;                       
