@@ -3,18 +3,20 @@
 
 @section('dashboard-content')
 
-<div class="container">
+<div class="container px-0">
     <section>
     {{-- <div class="row">    
         <div class="col-md-4 offset-md-4 rounded-div my-5">
             <h2 class="h1 text-center my-3">Score Board</h2>
         </div>
     </div> --}}
-    <div class="row">
-        <div class="row adsense">
+    <div class="row">        
+        <div class="col-md-12">
             @include('partial.ad-square-one')
         </div>
-        <div class="col-sm">
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <table class="table table-striped table-hover table-responsive-sm">
                 <thead class="thead-dark"> 
                     <tr>

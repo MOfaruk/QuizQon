@@ -1,7 +1,7 @@
 @extends('layouts.user_master')
 
 @section('content')
-<div class="container py-5">
+<div class="container py-5 px-0">
     <div class="row">
 
         <!-- ============================ SIDEBAR:MENU ============================ --
@@ -65,7 +65,7 @@
                             </li>
                             @empty($anonymous)
                             <li class="nav-item">
-                                <a class="nav-link @yield('link-act-quizzes')" href="{{ route('dashboard.quizzes')}}">Contests</a>
+                                <a class="nav-link @yield('link-act-quizzes')" href="{{ route('dashboard.quizzes')}}">Performance</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link @yield('link-act-friends')" href="{{ route('dashboard.friends')}}">Friends</a>

@@ -1,7 +1,7 @@
 @extends('layouts.user_master')
 
 @section('content')
-<div class="container py-5">
+<div class="container py-5 px-0">
     <div class="row">
 
         <!-- ============================ SIDEBAR:MENU ============================ --
@@ -19,7 +19,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="card">
+            <div class="card px-2">
                     <div class="card-header">
                         <ul class="nav nav-tabs card-header-tabs">
                             <li class="nav-item">

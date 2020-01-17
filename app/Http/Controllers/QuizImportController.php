@@ -41,7 +41,6 @@ class QuizImportController extends Controller
     public function store(Request $request)
     {
         //$msg = []; //TBD
-
         $validated = $request->validate([
               
             'qz_nQs' => 'required|numeric|max:200',
@@ -52,16 +51,16 @@ class QuizImportController extends Controller
         $allSheet = Excel::toArray(new QuizImport,$request->file('quiz_file'));        
         $sheet = $allSheet[0]; // only from sheet 1
         $nRow = count($sheet);
-
-        //$quiz = new Quiz();
+        //TBD return with msg if nRow=0
+        $quiz = Quiz::findOrFail($quiz_id);
         //$quiz->title = $request->qz_title;
         //$quiz->desc = $request->qz_desc;
-        //$quiz->nQs = $nRow;
+        $quiz->nQs = $nRow;
         //$quiz->negativeMark = $request->qz_neg;
         //$quiz->author_id = Auth::user()->id;
         //$quiz->start_on = $request->qz_start_on;
         //$quiz->duration = $request->qz_duration;
-        //$quiz->save();
+        $quiz->save();
         
         //$nQes = $request->qz_nQs;
 
