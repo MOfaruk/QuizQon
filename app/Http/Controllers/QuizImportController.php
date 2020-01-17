@@ -52,7 +52,7 @@ class QuizImportController extends Controller
         $sheet = $allSheet[0]; // only from sheet 1
         $nRow = count($sheet);
         //TBD return with msg if nRow=0
-        $quiz = Quiz::findOrFail($quiz_id);
+        $quiz = Quiz::findOrFail($request->quiz_id);
         //$quiz->title = $request->qz_title;
         //$quiz->desc = $request->qz_desc;
         $quiz->nQs = $nRow;
