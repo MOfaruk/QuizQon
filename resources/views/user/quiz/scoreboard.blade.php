@@ -31,10 +31,10 @@
                 </thead>
                 <tbody>
                     @foreach($score as $index=>$sc)
-                    <tr class="{{ ($sc->id == Auth::id())?'table-info':''}}">
-                        <td><b>{{  ($score->currentPage() -1) * $score->perPage() + $index+1 }}</b>/{{ $score->total() }}</th>
-                        <td><a href="{{ route('user_profile',['id'=>$sc->id, 'name'=>Str::slug($sc->name) ]) }}">{{ $sc->name }}</a></td>
-                        <td class="table-success"><b>{{ $sc->score }}</b></td>
+                    <tr class="{{ ($sc->id == Auth::id())?'table-success':''}}">
+                        <td><b>{{  ($score->currentPage() -1) * $score->perPage() + $index+1 }}</b>/{{ $score->total() }}</td>
+                        <td><a href="{{ route('user_profile',['id'=>$sc->id, 'name'=>Str::slug($sc->name) ]) }}" class="text-success font-weight-bold">{{ $sc->name }}</a></td>
+                        <td class="table-info font-weight-bold">{{ $sc->score*100 }}<small>%</small></td>
                         <td>{{ (int)($sc->solve_time/60) }}:{{ ($sc->solve_time)%60 }}</td>
                         <td>{{ $sc->correct }}</td>
                         <td>{{ $sc->wrong }}</td>

@@ -2,58 +2,38 @@
 
 @section('content')
 <div class="container py-5 px-0">
+    <!-- ============================ SIDEBAR:MENU ============================ --
     <div class="row">
 
-        <!-- ============================ SIDEBAR:MENU ============================ --
-        include('partial.dashboard-left-menu')
-        <-- ./Sidebar -->
-
-        <!--   ==================      Content     ========================     -->
-                  
+        include('partial.dashboard-left-menu')                
     </div>
+    <--   ==================      Content     ========================     -->
 
-    <div class="card mb-4">
-        <div class="card-body">
-            <div class="row">
-                <div class="col">
-                    <div class="col-md-12">
-                        <img src="{{ asset('images/images.jpg')}}" class="rounded-circle float-left" width="80px">
-                    </div>
-                    <div class="p-2">
-                        <h2>{{isset($account)?$account->name:Auth::user()->name}} </h2>
-                        <span>{{ $personalInfo['institute'] }}</span><br>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="text-right">
-                        <span>Rating</span>
-                        <br>                        
-                        <i class="fa fa-trophy text-warning"></i>
-                        <i class="fa fa-trophy" style="color:#D2691E"></i>
-                        <i class="fa fa-trophy" style="color:#aaa9ad"></i>
-                        <br>
-                        <a href="" class="fa fa-facebook"></a>
-                        <a class="fa fa-globe text-success"></a>
-                        <br>
+    <div class="row border shadow-sm mb-4 rounded p-3">
+        <div class="col-md-2">
+            <img src="{{ asset('images/images.jpg')}}" class="rounded-circle float-sm-left float-md-right" width="80px">
 
-                        @empty($anonymous)
-                        <a href="{{ route('dashboard.update_view') }}" class="btn btn-sm btn-default m-0 p-1">Update info</a>
-                        @endempty
-
-                        @isset($anonymous)
-                            @if($bFriend)
-                                <a href="#" class="btn btn-sm btn-outline-warning m-0 p-1" id="{{ $account->id }}" onclick="removeFriend(this.id)">Remove Friend</a>
-                            @else
-                                <a href="#" class="btn btn-sm btn-success m-0 p-1" id="{{ $account->id }}" onclick="addFriend(this.id)">Add Friend</a>
-
-                            @endif
-                        @endisset
-                        
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>  
+        <div class="col-md-10 text-left border-left">
+            
+            <h2>{{isset($account)?$account->name:Auth::user()->name}} </h2>
+            <span>{{ $personalInfo['institute'] }}</span><br>
+            @empty($anonymous)
+            <a href="{{ route('dashboard.update_view') }}" class="btn btn-sm btn-default m-0 p-1">Update info</a>
+            @endempty
+
+            @isset($anonymous)
+                @if($bFriend)
+                    <a href="#" class="btn btn-sm btn-warning m-0 p-1" id="{{ $account->id }}" onclick="removeFriend(this.id)">Remove Friend</a>
+                @else
+                    <a href="#" class="btn btn-sm btn-success m-0 p-1" id="{{ $account->id }}" onclick="addFriend(this.id)">Add Friend</a>
+
+                @endif
+            @endisset
+
+        </div>
+    </div>
+     
 
     <div class="row">
         <div class="col-md-12">

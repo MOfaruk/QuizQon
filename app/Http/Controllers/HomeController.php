@@ -50,7 +50,8 @@ class HomeController extends Controller
     }
 
     public function showUserProfile($id)
-    {   
+    {   if(Auth::id()==$id)
+            return redirect(route('dashboard.index'));
         $acc = User::find($id);
         $personal = $this->getPersonalInfo($id);
         $bFriend = Auth::user()->isFriend($id); //check if is friend of user
