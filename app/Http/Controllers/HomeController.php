@@ -37,7 +37,7 @@ class HomeController extends Controller
 
         $prvQuiz = Quiz::where('start_on','<',Carbon::now('UTC'))
                         //->get();
-                        ->paginate(1);
+                        ->paginate(10);
         //Recent Quizzes user missed
         $perticipated = Answer::where('user_id',Auth::id())
                                 ->pluck('quiz_id');
