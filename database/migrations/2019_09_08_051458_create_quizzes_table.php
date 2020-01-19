@@ -20,7 +20,7 @@ class CreateQuizzesTable extends Migration
             $table->integer('nQs');//number of question
             $table->float('negativeMark',8,2)->default(0);
             $table->integer('author_id');
-            $table->timestamp('start_on');
+            $table->dateTime('start_on');
             $table->integer('duration');
             $table->string('thumbnail')->nullable();
             $table->integer('nHit')->default(0);
