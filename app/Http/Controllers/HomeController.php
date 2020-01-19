@@ -30,19 +30,19 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $upQuiz = Quiz::where('start_on','>=',Carbon::today()->toDateString())
+        $upQuiz = Quiz::where('start_on','>=',Carbon::now('UTC'))
                         ->orderBy('start_on','asc')
                         //->get();
                         ->paginate(10);
 
-        $prvQuiz = Quiz::where('start_on','<',Carbon::today()->toDateString())
+        $prvQuiz = Quiz::where('start_on','<',Carbon::now('UTC'))
                         //->get();
                         ->paginate(1);
         //Recent Quizzes user missed
         $perticipated = Answer::where('user_id',Auth::id())
                                 ->pluck('quiz_id');
         $quizIds = json_decode($perticipated,true);
-        $recentQuiz = Quiz::where('start_on','<',Carbon::today()->toDateString())
+        $recentQuiz = Quiz::where('start_on','<',Carbon::now('UTC'))
                             ->whereNotIn('id',$quizIds)
                             ->orderBy('start_on','DESC')
                             ->paginate(10);                
