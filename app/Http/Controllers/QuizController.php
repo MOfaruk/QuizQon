@@ -45,7 +45,7 @@ class QuizController extends Controller
         $quiz = new Quiz();
         $quiz->title = $request->qz_title;
         $quiz->desc = $request->qz_desc;
-        $quiz->nQs = $request->qz_nQs;//TBD Validat min:1
+        $quiz->nQs = 0; //it will be update during question creation
         $quiz->author_id = Auth::user()->id;        
         $quiz->start_on = Carbon::parse($request->qz_start_on, 'Asia/Dhaka')->setTimezone('UTC');;
         $quiz->duration = $request->qz_duration;
