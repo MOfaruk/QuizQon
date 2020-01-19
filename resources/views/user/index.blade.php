@@ -51,7 +51,7 @@
                         </h4>
                         <p class="card-text">    
                             <b>Starts at: </b> 
-                            {{ \Carbon\Carbon::parse($quiz->start_on)->format('h:i A, l, F j,Y') }}
+                            {{ \Carbon\Carbon::parse($quiz->start_on)->setTimezone('Asia/Dhaka')->format('h:i A, l, F j,Y') }}
                             <br><b>Duration:</b> {{ $quiz->duration }} minutes
                         </p>
                     </div>
@@ -99,7 +99,7 @@
                         </h4>
                         <p class="card-text">
                             <b>Starts at: </b>
-                            {{ \Carbon\Carbon::parse($quiz->start_on)->diffForHumans(\Carbon\Carbon::now(), true) }} later
+                            {{ \Carbon\Carbon::parse($quiz->start_on)->setTimezone('Asia/Dhaka')->diffForHumans(\Carbon\Carbon::now(), true) }} later
                             <br><b>Duration:</b> {{ $quiz->duration }} minutes
                         </p>
                     </div>
@@ -141,7 +141,7 @@
                         </h4>
                         <p class="card-text">    
                             <b>Started on: </b> 
-                            {{ \Carbon\Carbon::parse($quiz->start_on)->format('F j, Y') }}
+                            {{ \Carbon\Carbon::parse($quiz->start_on)->setTimezone('Asia/Dhaka')->format('F j, Y') }}
                             <br><b>Duration:</b> {{ $quiz->duration }} minutes
                         </p>
                     </div>
