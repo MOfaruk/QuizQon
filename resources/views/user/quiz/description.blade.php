@@ -6,7 +6,7 @@
     <div class="col-md-8 col-sm-12 offset-md-1">
         <p class="card-text p-1">    
             <b>Starts On: </b> 
-            {{ \Carbon\Carbon::parse($quiz->start_on)->format('h:i A - F j, Y (l)') }}
+            {{ \Carbon\Carbon::parse($quiz->start_on)->setTimezone('Asia/Dhaka')->format('h:i A - F j, Y (l)') }}
             <br><b>Duration:</b> {{ $quiz->duration }} minutes
         </p>
 

@@ -6,7 +6,6 @@
     <form method="post" id="ansForm">
         <div class="row">
             <div class="col-md-4 offset-md-4 rounded-div my-2">
-                <h2 class="h1 text-center my-3">{{$quiz->title}}</h2>
                 <h4 class="card bg-dark h3 text-center my-3 text-success" id="timer"></h4>
             </div>
         </div>

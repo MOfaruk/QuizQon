@@ -30,6 +30,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                @if(count($score))
                     @foreach($score as $index=>$sc)
                     <tr class="{{ ($sc->id == Auth::id())?'table-success':''}}">
                         <td><b>{{  ($score->currentPage() -1) * $score->perPage() + $index+1 }}</b>/{{ $score->total() }}</td>
@@ -41,6 +42,7 @@
                         <td>{{ $sc->unattempted }}</td>
                     </tr>
                     @endforeach
+                @endif
                 </tbody>
             </table>
         </div>

@@ -21,15 +21,8 @@ class UserQuizController extends Controller
     }
     public function show($id)
     {
-        $quiz = Quiz::where('id',$id)
-                        ->get();
-        //return $quiz;
-        if($quiz->isEmpty())
-            return view('404');
-
-        $diff = Carbon::parse($quiz[0]->start_on)->diffInSeconds(Carbon::now()->toDateString());
-
-        return view('user.quiz.arena')->with('quiz',$quiz[0]);
+        $quiz = Quiz::findOrFail($id);
+        return view('user.quiz.arena')->with('quiz',$quiz);
     }
 
     public function getquiz($id)
@@ -38,7 +31,7 @@ class UserQuizController extends Controller
                     ->get();
         if($quiz->count())
         {
-            $diff = Carbon::parse($quiz[0]->start_on)->diffInSeconds(Carbon::now(),false);
+            $diff = Carbon::parse($quiz[0]->start_on)->diffInSeconds(Carbon::now('UTC'),false);
             // diff = quizTime - now 
             // before quiz diff -ve, after start +ve
             $ans = Answer::where('quiz_id',$id)
@@ -136,15 +129,13 @@ class UserQuizController extends Controller
     public function scoreboard(Request $request, $id)
     {
         $quiz = Quiz::findOrFail($id);
-                    //->get();
-        if($quiz->count())
-        {
-            $diff = Carbon::parse($quiz->start_on)->diffInSeconds(Carbon::now()->toDateString());
-            if( $diff < 60)
-                return $this->showPendingScore($request,$quiz);
-            else
-                return $this->showFinalScore($request,$quiz);
-        }
+
+        $diff = Carbon::parse($quiz->start_on)->diffInSeconds(Carbon::now('UTC'),false);
+        //return $diff;
+        if( $diff < 0)
+            return $this->showPendingScore($request,$quiz);
+        else
+            return $this->showFinalScore($request,$quiz);
         
     }
 
@@ -171,15 +162,14 @@ class UserQuizController extends Controller
             });
             
             //return $currentPage;
-        } 
-
+        }
         //        
         $score = DB::table('answers')
                 ->rightJoin('users','users.id','=','answers.user_id')
                 ->where('answers.quiz_id',$quiz->id)
                 //->orderBy('score','desc')
                 ->select('users.name','answers.score','answers.correct','answers.wrong','answers.unattempted')
-                ->paginate(2);
+                ->paginate(25);
                 //->get(['users.name','answers.score','answers.correct','answers.wrong','answers.unattempted']);
                 //->paginate(5,['id','name','username'.....]);
         return view('user.quiz.scoreboard')->with(['score'=>$score,'size'=>0/*$score->count()*/,'quiz'=>$quiz ]);
@@ -239,7 +229,7 @@ class UserQuizController extends Controller
                 ->orderBy('score','desc')                
                 ->orderBy('solve_time','asc')
                 ->select('users.id','name','score','correct','wrong','unattempted','solve_time')
-                ->paginate(10);
+                ->paginate(25);
                 //->get(['users.id','users.name','answers.score','answers.correct','answers.wrong','answers.unattempted']);
                 //->paginate(5,['id','name','username'.....]);
                 //->get();
@@ -282,14 +272,14 @@ class UserQuizController extends Controller
         $quiz = Quiz::findOrFail($id);
 
         $quiz_end = Carbon::parse($quiz->start_on)->addMinutes($quiz->duration);
-        if( Carbon::now()->greaterThan($quiz_end) )// start_time + duration < now
+        if( Carbon::now('UTC')->greaterThan($quiz_end) )// start_time + duration < now
             return view('user.quiz.solution',[
                 'qsWithAns'=>$qsWithAns,
                 'quiz'=>$quiz,
                 'bUserAns'=>$bUserAns,
                 'userAns'=>$userAns
                 ]);
-        
+        //return withour qs Ans
         return view('user.quiz.solution',[
             'qsWithAns'=>[],
             'quiz'=>$quiz,
