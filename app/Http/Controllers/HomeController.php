@@ -34,9 +34,10 @@ class HomeController extends Controller
                         ->orderBy('start_on','asc')
                         //->get();
                         ->paginate(10);
+
         $prvQuiz = Quiz::where('start_on','<',Carbon::today()->toDateString())
                         //->get();
-                        ->paginate(10);
+                        ->paginate(1);
         //Recent Quizzes user missed
         $perticipated = Answer::where('user_id',Auth::id())
                                 ->pluck('quiz_id');

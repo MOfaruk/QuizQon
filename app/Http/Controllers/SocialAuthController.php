@@ -18,7 +18,7 @@ class SocialAuthController extends Controller
     {
         $getInfo = Socialite::driver($provider)->user();
         $user = $this->createOrGetUser($getInfo,$provider); 
-        auth()->login($user); 
+        auth()->login($user,true); 
         return redirect()->route('home');
     }
 
