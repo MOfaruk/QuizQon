@@ -99,7 +99,7 @@
                         </h4>
                         <p class="card-text">
                             <b>Starts at: </b>
-                            {{ \Carbon\Carbon::parse($quiz->start_on)->setTimezone('Asia/Dhaka')->diffForHumans(\Carbon\Carbon::now(), true) }} later
+                            {{ \Carbon\Carbon::parse($quiz->start_on)->setTimezone('Asia/Dhaka')->diffForHumans(\Carbon\Carbon::now()) }}
                             <br><b>Duration:</b> {{ $quiz->duration }} minutes
                         </p>
                     </div>
