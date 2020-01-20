@@ -41,12 +41,25 @@ class QuizImportController extends Controller
     public function store(Request $request)
     {
         //$msg = []; //TBD
-        $validated = $request->validate([
+        $validator1 = $request->validate([
               
             'qz_nQs' => 'required|numeric|max:200',
             //'qz_neg' => 'required|min:0|max:1',   
-            'quiz_file' => 'required|mimes:xls,xlsx',
+            //'quiz_file' => 'required|mimes:xls,xlsx', this doesnt work for some cases, specially for those
+            //files created with libreoffice 
+
         ]);
+
+        $validator2 =$request->validate(
+            [
+                'file'      => $request->file('quiz_file'),
+                'extension' => strtolower($request->file('quiz_file')->getClientOriginalExtension()),
+            ],
+            [
+                'file'          => 'required',
+                'extension'      => 'required|in:xlsx,xls',
+            ]
+          );
 
         $allSheet = Excel::toArray(new QuizImport,$request->file('quiz_file'));        
         $sheet = $allSheet[0]; // only from sheet 1
@@ -55,7 +68,7 @@ class QuizImportController extends Controller
         $quiz = Quiz::findOrFail($request->quiz_id);
         //$quiz->title = $request->qz_title;
         //$quiz->desc = $request->qz_desc;
-        $quiz->nQs = $nRow;
+        $quiz->nQs = $request->qz_nQs;
         //$quiz->negativeMark = $request->qz_neg;
         //$quiz->author_id = Auth::user()->id;
         //$quiz->start_on = $request->qz_start_on;
