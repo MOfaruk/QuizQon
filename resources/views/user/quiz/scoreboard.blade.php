@@ -5,6 +5,16 @@
 
 <div class="container px-0">
     <section>
+        <div class="row">
+            <div class="col text-center">
+                @if($bFinalScore)
+                <h4 class="font-weight-bold">Final Scoreboard</h4>
+                @else
+                <h4 class="font-weight-bold">Scoreboard(Current)</h4>
+                <h6>final scoreboard will be published after the quiz end</h6>
+                @endif
+            </div>
+        </div>
     {{-- <div class="row">    
         <div class="col-md-4 offset-md-4 rounded-div my-5">
             <h2 class="h1 text-center my-3">Score Board</h2>
@@ -15,6 +25,7 @@
             @include('partial.ad-square-one')
         </div>
     </div>
+    @if($score)
     <div class="row">
         <div class="col-md-12">
             <table class="table table-striped table-hover table-responsive-sm">
@@ -49,15 +60,16 @@
         
     </div>
     <div class="row mb-5">
-        @auth     
+        {{-- @auth     
         <div class="col-sm-3">
             <a href="{{ Request::url().'?page=-1'}}" class="btn btn-sm btn-success m-0">My Score</a>
         </div>
-        @endauth 
+        @endauth  --}}
         <div class="col-sm-2">
-            {{ $score->links() }}
+            {{$score->links() }}
         </div>       
     </div>
+    @endif
     </section>
     
 </div>

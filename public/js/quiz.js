@@ -91,7 +91,7 @@ var x = setInterval(function() {
         loadAndInsertData();
         //clearInterval(x);
         //startQuizTimer();
-        $("#timer").html("Quiz Started");
+        $("#timer").html("Quiz Running");
     }
     else if( waitTime*(-1) < duration*60) // Quiz Running
     {        
@@ -129,22 +129,22 @@ function insertIntoBody()
     if(waitTime*(-1) > duration*60) //contest ended: Virtual COntest
     {
         waitTime = 0;
-        $('#btnSubmit').removeClass('btn-success');
+        //$('#btnSubmit').removeClass('btn-success');
         $('#btnSubmit').removeClass('d-none');
-        $('#btnSubmit').addClass('btn-info');
-        $('#btnSubmit').html('Submit');
+        //$('#btnSubmit').addClass('btn-info');
+        //$('#btnSubmit').html('Submit');
     }
     else //contest started
     {
         $('#btnSubmit').removeClass('d-none');
     }
     console.log('start time :'+ waitTime);
-    var i=1;
+    var qsId=0;
     loadedData['quiz'].forEach(qs => {
-        qsId = qs['id'];
+        qsId++;
         var text = 
         '<div class="card form-group col-sm-8 offset-md-2 option-container p-4">'+
-            '<label class="form-control-label col-lg-3"><b>['+ i++ + '] ' + qs['desc'] +'</b></label>'+
+            '<label class="form-control-label col-lg-3"><b>['+ qsId + '] ' + qs['desc'] +'</b></label>'+
             '<div class="col-sm-12 options">'+
                 '<div class="mb-2">'+
                     '<div class="custom-control custom-radio d-inline w-10">'+
@@ -343,11 +343,10 @@ function showSubmitSuccessNotification()
         title: '',
         text: 'answers submitted successfully!',
         confirmButtonColor: '#00c851',
-        confirmButtonText: 'View Scoreboard',
-        onClose: () => {
-            var url = "/scoreboard/"+quiz_id+"/?page=-1";    
-            var scoreboard_url = $('meta[name="scr-url"]').attr("content");
-            $(location).attr('href',scoreboard_url);
+        confirmButtonText: 'View Your Score',
+        onClose: () => {   
+            var redir_url = $('meta[name="redirect-url"]').attr("content");
+            $(location).attr('href',redir_url);
         }
     });
 }

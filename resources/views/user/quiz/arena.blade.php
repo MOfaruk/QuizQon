@@ -22,8 +22,6 @@
         </div>
         <div class="text-center mb-5">
             <button type="submit" class="btn btn-success d-none" id="btnSubmit">Submit</button>
-            <a href="{{ route('quiz.solution',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" class="btn btn-default" id="btnViewSolution">View Solution</a>                
-            <a href="{{ route('quiz.scoreboard',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}" class="btn btn-secondary" id="btnGoScoreboard">Score Board</a>
         </div>
     </form>
 </section>
@@ -34,7 +32,7 @@
 
 @push('head')
 <meta name="quiz-id" content="{{ $quiz->id }}">
-<meta name="scr-url" content="{{ route('quiz.scoreboard',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}">
+<meta name="redirect-url" content="{{ route('quiz.solution',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}?bUserAns=1">
 @endpush
 
 @push('scripts')

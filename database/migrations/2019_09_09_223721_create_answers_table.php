@@ -27,6 +27,8 @@ class CreateAnswersTable extends Migration
             $table->timestamps();
 
             $table->unique(['user_id','quiz_id']);
+            //SHOW INDEX FROM <table_name>
+            //ALTER TABLE <table_name> DROP INDEX <index_name>
         });
     }
 

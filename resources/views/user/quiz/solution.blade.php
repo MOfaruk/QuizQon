@@ -13,7 +13,21 @@
             <div class="custom-control custom-switch">
                 <input type="checkbox" class="custom-control-input" id="myAnswerSwitch" {{ $bUserAns==true? 'checked':''}}>
                 <label class="custom-control-label" for="myAnswerSwitch">Show my answers</label>
-            </div> 
+            </div>
+            @if(count($qsWithAns))
+                @if($bUserAns && $userAns == NULL)                 
+                    <div class="alert alert-warning alert-dismissible fade show mt-3">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong>Sorry!</strong> No record found for your answer.    
+                    </div>
+                @endif
+            @else
+                <div class="alert alert-warning alert-dismissible fade show mt-3">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>                        
+                        <strong>Sorry!</strong> Solution will be published after the quiz finished.  
+                </div>
+            
+            @endif
         </div>
     </div>
     <div class="row adsense">
@@ -56,14 +70,15 @@
                     <!-- No delete btn for first input -->
                 </div>
                 <div class="mb-2">
-                    @if($bUserAns)
-                    <b>Your Answer:</b> 
-                    @php
-                     foreach ($userAns as  $ans) {
-                         if($ans->qsId == $item->id)
-                         {
-                             switch ($ans->ans) {
-                                 case '1':
+                    @if($bUserAns) 
+                        @php
+                        foreach ($userAns as  $ans) 
+                        {
+                            if($ans->qsId == $item->id)
+                            {                                
+                                echo '<b>Your Answer: </b>';
+                                switch ($ans->ans) {
+                                case '1':
                                     echo $item->option1;
                                     break;
                                 case '2':
@@ -78,10 +93,10 @@
                                 default:
                                     echo 'you didnot answer this';
                                     break;
-                             }
-                         }
-                     }   
-                    @endphp
+                                }
+                            }
+                        }   
+                        @endphp
                     @endif
                 </div>
             </div>

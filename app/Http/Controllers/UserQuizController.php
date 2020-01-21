@@ -37,7 +37,7 @@ class UserQuizController extends Controller
             $ans = Answer::where('quiz_id',$id)
                             ->where('user_id',Auth::id())
                             ->get();
-
+            
             if( $diff < 0) // quiz is not running
                 return [
                     'quiz'=>array(),
@@ -51,6 +51,9 @@ class UserQuizController extends Controller
             //else
             $question = Question::where('quiz_id',$id)
                                 ->get();
+            if($quiz[0]->nQs != $question->count())
+                \Log::warning('UserQuizController:55 - Quiz->nQs not equal to number of question pick from Question.'.$quiz[0]->nQs .'!='. $question->count());
+            
             return [
                 'quiz'=>$question,
                 'waitTime'=>$diff*(-1),
@@ -75,7 +78,8 @@ class UserQuizController extends Controller
         $question = Question::where('quiz_id',$id)
                             ->get();
         
-        $nQs = $question->count();
+        $quiz = Quiz::findOrFail($id);
+        $nQs = $quiz->nQs;
         $ansArray = array();
         $correct = 0;
         $wrong = 0;
@@ -98,9 +102,8 @@ class UserQuizController extends Controller
 
             array_push($ansArray,array('qsId'=>$question[$i-1]->id,'ans'=>$ansTemp));
         }
-
         //calculating score
-        $score = $correct - ($wrong * 0.25);
+        $score = $correct - ($wrong * $quiz->negativeMark);
 
         try {
             $answer = new Answer();
@@ -130,12 +133,37 @@ class UserQuizController extends Controller
     {
         $quiz = Quiz::findOrFail($id);
 
-        $diff = Carbon::parse($quiz->start_on)->diffInSeconds(Carbon::now('UTC'),false);
+        //$diff = Carbon::parse($quiz->start_on)->diffInSeconds(Carbon::now('UTC'),false);
         //return $diff;
+        /*
         if( $diff < 0)
             return $this->showPendingScore($request,$quiz);
         else
             return $this->showFinalScore($request,$quiz);
+        */
+        $quiz_end = Carbon::parse($quiz->start_on)
+                            ->addMinutes($quiz->duration)
+                            ->addSeconds(35)//add seconds for safety
+                            ->timezone('UTC');
+        $viewData = DB::table('answers')
+                ->rightJoin('users','users.id','=','answers.user_id')
+                ->where('answers.quiz_id',$quiz->id)
+                ->where('answers.created_at','<',$quiz_end)
+                ->orderBy('score','desc')                
+                ->orderBy('solve_time','asc')
+                ->select('users.id','name','score','correct','wrong','unattempted','solve_time')
+                ->paginate(25);
+                //->get(['users.id','users.name','answers.score','answers.correct','answers.wrong','answers.unattempted']);
+                //->paginate(5,['id','name','username'.....]);
+                //->get();
+        //return $viewData;
+        if(Carbon::parse($quiz->start_on)->greaterThan(Carbon::now('UTC')) )//before quiz start
+            return view('user.quiz.scoreboard',['score'=>[],'quiz'=>$quiz,'bFinalScore'=>false]);
+        else if($quiz_end->greaterThan(Carbon::now('UTC')))//quiz running
+            return view('user.quiz.scoreboard',['score'=>$viewData,'quiz'=>$quiz,'bFinalScore'=>false]);
+        else //finished
+            return view('user.quiz.scoreboard',['score'=>$viewData,'quiz'=>$quiz,'bFinalScore'=>true]);
+
         
     }
 
@@ -254,36 +282,38 @@ class UserQuizController extends Controller
     }
 
     public function solution($id, $title = NULL)
-    {        
-        $bUserAns = request()->bUserAns;
-        $userAns = [];
-        if($bUserAns)
-        {
-            $ans = Answer::where('quiz_id',$id)
-                                ->where('user_id',Auth::id())
-                                ->first();
-            if($ans)
-                $userAns = json_decode($ans->ans_json);
-        }
-        
-        $qsWithAns = Question::where('quiz_id',$id)
-                            ->get();
-        
+    {   
         $quiz = Quiz::findOrFail($id);
-
         $quiz_end = Carbon::parse($quiz->start_on)->addMinutes($quiz->duration);
-        if( Carbon::now('UTC')->greaterThan($quiz_end) )// start_time + duration < now
+        if( Carbon::now('UTC')->greaterThan($quiz_end) )// quiz finished
+        {
+            $bUserAns = request()->bUserAns;
+            $userAns = [];
+            if($bUserAns)
+            {
+                $ans = Answer::where('quiz_id',$id)
+                                    ->where('user_id',Auth::id())
+                                    ->first();
+                if($ans)
+                    $userAns = json_decode($ans->ans_json);
+            }
+            
+            $qsWithAns = Question::where('quiz_id',$id)
+                                ->get();            
+            
             return view('user.quiz.solution',[
                 'qsWithAns'=>$qsWithAns,
                 'quiz'=>$quiz,
                 'bUserAns'=>$bUserAns,
                 'userAns'=>$userAns
                 ]);
-        //return withour qs Ans
+        }     
+        
+        //return without qs Ans
         return view('user.quiz.solution',[
             'qsWithAns'=>[],
             'quiz'=>$quiz,
-            'bUserAns'=>$bUserAns,
+            'bUserAns'=>request()->bUserAns,
             'userAns'=>NULL
             ]);
 }
