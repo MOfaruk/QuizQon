@@ -15,6 +15,17 @@
                 @endif
             </div>
         </div>
+        @if($userAns)
+        <div class="row px-3">
+            <div class="col text-left rounded p-3" style="background-color: #ccf59d;">
+            <h6 class="font-weight-bold">Your Score: {{$userAns->score*100}}%</h6>
+            <h6>Correct: {{$userAns->correct}}</h6>
+            <h6>Wrong: {{$userAns->wrong}}</h6>
+            <h6>Unattempted: {{$userAns->unattempted}}</h6>
+            <h6>Solve Time: {{$userAns->solve_time}} seconds</h6>
+            </div>
+        </div>
+        @endif
     {{-- <div class="row">    
         <div class="col-md-4 offset-md-4 rounded-div my-5">
             <h2 class="h1 text-center my-3">Score Board</h2>

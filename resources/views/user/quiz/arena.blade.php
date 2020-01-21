@@ -32,7 +32,7 @@
 
 @push('head')
 <meta name="quiz-id" content="{{ $quiz->id }}">
-<meta name="redirect-url" content="{{ route('quiz.solution',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}?bUserAns=1">
+<meta name="redirect-url" content="{{ route('quiz.scoreboard',['id'=>$quiz->id,'title'=>Str::slug($quiz->title)]) }}">
 @endpush
 
 @push('scripts')

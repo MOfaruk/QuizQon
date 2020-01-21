@@ -103,7 +103,7 @@ class UserQuizController extends Controller
             array_push($ansArray,array('qsId'=>$question[$i-1]->id,'ans'=>$ansTemp));
         }
         //calculating score
-        $score = $correct - ($wrong * $quiz->negativeMark);
+        $score = ($correct - $wrong - ($wrong * $quiz->negativeMark))/$nQs;
 
         try {
             $answer = new Answer();
@@ -157,12 +157,21 @@ class UserQuizController extends Controller
                 //->paginate(5,['id','name','username'.....]);
                 //->get();
         //return $viewData;
+
+        $userAns = NULL;
+        if(Auth::check())
+        {
+            $userAns =  Answer::where('quiz_id',$id)
+                                ->where('user_id',Auth::id())
+                                ->first();
+        }
+
         if(Carbon::parse($quiz->start_on)->greaterThan(Carbon::now('UTC')) )//before quiz start
-            return view('user.quiz.scoreboard',['score'=>[],'quiz'=>$quiz,'bFinalScore'=>false]);
+            return view('user.quiz.scoreboard',['score'=>[],'quiz'=>$quiz,'userAns'=>$userAns,'bFinalScore'=>false]);
         else if($quiz_end->greaterThan(Carbon::now('UTC')))//quiz running
-            return view('user.quiz.scoreboard',['score'=>$viewData,'quiz'=>$quiz,'bFinalScore'=>false]);
+            return view('user.quiz.scoreboard',['score'=>$viewData,'quiz'=>$quiz,'userAns'=>$userAns,'bFinalScore'=>false]);
         else //finished
-            return view('user.quiz.scoreboard',['score'=>$viewData,'quiz'=>$quiz,'bFinalScore'=>true]);
+            return view('user.quiz.scoreboard',['score'=>$viewData,'quiz'=>$quiz,'userAns'=>$userAns,'bFinalScore'=>true]);
 
         
     }
