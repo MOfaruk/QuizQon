@@ -16,9 +16,9 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/search/{term?}', 'HomeController@search')->name('search');
 
 //User Quiz Routes
-Route::group(['prefix'=>'quiz','as'=>'quiz.','middleware' => 'auth'], function () 
+Route::group(['prefix'=>'quiz','as'=>'quiz.'], function () 
 {
-    Route::get('/{id}/{title?}', ['as'=>'arena','uses'=>'UserQuizController@show']);
+    Route::get('/{id}/{title?}', ['as'=>'arena','uses'=>'UserQuizController@show'])->middleware('auth');
     Route::get('/description/{id}/{title?}', ['as'=>'description','uses'=>'UserQuizController@showQuizDescription']);
     Route::get('/scoreboard/{id}/{title?}', ['as'=>'scoreboard','uses'=>'UserQuizController@scoreboard']);
     Route::get('/solution/{id}/{title?}', ['as'=>'solution','uses'=>'UserQuizController@solution']);
