@@ -88,10 +88,6 @@
         src="https://www.facebook.com/tr?id=2676070022487120&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Facebook Pixel Code -->
-    <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=293897321216947&ev=PageView&noscript=1"
-    /></noscript>
-    <!-- End Facebook Pixel Code -->
 
     <!--   Custom Scripts   -->
     @stack('scripts')
